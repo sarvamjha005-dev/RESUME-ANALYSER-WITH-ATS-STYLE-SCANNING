@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Analyzer</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            margin:40px;
+            background:#f5f5f5;
+        }
+
+        h1{
+            color:#333;
+        }
+
+        form{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            width:500px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        textarea,input{
+            width:100%;
+            padding:8px;
+            margin-top:5px;
+            margin-bottom:15px;
+        }
+
+        button{
+            padding:10px 20px;
+            background:#2c7be5;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        table{
+            margin-top:30px;
+            border-collapse:collapse;
+            width:80%;
+            background:white;
+        }
+
+        th,td{
+            padding:10px;
+            border:1px solid #ddd;
+            text-align:center;
+        }
+
+        th{
+            background:#2c7be5;
+            color:white;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<h1>AI Resume Screening</h1>
+
+<form id="resumeForm">
+
+<label>Job Description</label>
+<textarea name="job_description" rows="5" required></textarea>
+
+<label>Skills (comma separated)</label>
+<input type="text" name="skills" placeholder="Python, Machine Learning, SQL" required>
+
+<label>Upload Resumes or ZIP</label>
+<input type="file" name="files" multiple required>
+
+<button type="submit">Analyze Resumes</button>
+
+</form>
+
+
+<h2>Results</h2>
+
+<table id="resultsTable">
+
+<tr>
+<th>Filename</th>
+<th>Final Score</th>
+<th>Semantic Score</th>
+<th>Keyphrase Score</th>
+</tr>
+
+</table>
+
+
+<script>
+
+document.getElementById("resumeForm").addEventListener("submit", async function(e){
+
+    e.preventDefault()
+
+    const formData = new FormData(this)
+
+    const response = await fetch("http://127.0.0.1:6969/analyze",{
+        method:"POST",
+        body:formData
+    })
+
+    const results = await response.json()
+    console.log(results)
+
+    const table = document.getElementById("resultsTable")
+
+    table.innerHTML = `
+    <tr>
+    <th>Filename</th>
+    <th>Final Score</th>
+    <th>Semantic Score</th>
+    <th>Keyphrase Score</th>
+    </tr>
+    `
+
+    results.forEach(r => {
+
+        const row = table.insertRow()
+
+        row.insertCell(0).innerText = r.filename
+        row.insertCell(1).innerText = r.final_score
+        row.insertCell(2).innerText = r.semantic_score
+        row.insertCell(3).innerText = r.keyphrase_score
+
+    })
+
+})
+
+</script>
+
+</body>
+</html>
