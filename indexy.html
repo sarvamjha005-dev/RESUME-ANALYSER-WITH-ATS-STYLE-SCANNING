@@ -1055,7 +1055,7 @@
             renderEmptyState("Analysis in progress. Ranking candidates now.");
 
             try {
-                const response = await fetch("http://127.0.0.1:6996/analyze", {
+                const response = await fetch("/analyze", {
                     method: "POST",
                     body: formData
                 });
@@ -1069,7 +1069,7 @@
                 setStatus("Analysis complete. Your ranked board is ready.", "success");
             } catch (error) {
                 console.error(error);
-                renderEmptyState("Could not reach the analyzer. Make sure the backend is running on port 6996.");
+                renderEmptyState("Could not reach the analyzer. Make sure the backend is running and the deployment finished successfully.");
                 setStatus("Analysis failed. Check the backend connection and try again.", "error");
             } finally {
                 submitButton.disabled = false;
