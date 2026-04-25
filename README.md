@@ -5,7 +5,11 @@ containerized using dockers .The appplication has been deployed on Render.
 
 Components:-
 main.py:-Resume Analyser code
+
 indexy.html-User interface code
+
 Dockerfile:Dockerfile for the the application
+
 .gitignore :-used by dockerfile to ignore certain files
+
 requirement.txt:-files needed by docker
